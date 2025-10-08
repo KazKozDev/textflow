@@ -18,7 +18,7 @@ TextFlow is an LLM-powered Integrated Writing Environment (IWE) for professional
 - **Screenwriters** — screenplay and dramatic works
 - **Authors** — any structured manuscript requiring consistency
 
-TextFlow is a set of LLM tools for text editing. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control, similar to Visual Studio Copilot or Cursor.
+TextFlow is a set of LLM tools for text editing. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control.
 
 The system includes Story Bible, which automatically generates and maintains knowledge bases for characters, world-building, and timeline consistency. Every change goes through the Patch System, allowing you to review changes with a clear rationale for each change. Quality Metrics offers a quantitative assessment of the manuscript based on parameters such as clarity, tension, and pacing, while a complete version history with semantic versioning provides full rollback capability.
 
