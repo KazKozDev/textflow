@@ -23,9 +23,8 @@ TextFlow is a set of LLM tools for text editing. It is a convenient environment 
 The system includes Story Bible, which automatically generates and maintains knowledge bases for characters, world-building, and timeline consistency. Every change goes through the Patch System, allowing you to review changes with a clear rationale for each change. Quality Metrics offers a quantitative assessment of the manuscript based on parameters such as clarity, tension, and pacing, while a complete version history with semantic versioning provides full rollback capability.
 
 <img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
-
-
-**How it works:**
+<br><br>
+How it works:
 - Type natural language commands: "Remove passive voice from Chapter 3" or "Make the dialogue more authentic"
 - Agent understands context and manuscript structure
 - Get instant feedback and execution plans
@@ -40,86 +39,9 @@ The system includes Story Bible, which automatically generates and maintains kno
 "Find all instances of telling instead of showing"
 ```
 
-### 🤖 Cascade AI Agent
+The AI agent operates through a chat interface and has access to several core functions: it can retrieve specific manuscript fragments with editing rules and Story Bible data, execute structured edit plans with patch validation, update the Story Bible with new information, and analyze the entire manuscript to build or refine the Story Bible. You simply send a request — for instance, “analyze character development” or “remove passive voice” — and the agent autonomously determines which tools to use, retrieving context, generating edits, and applying them where needed.
 
-**The heart of TextFlow** — an intelligent agent that processes editing requests through a multi-stage cascade workflow:
-
-**Stage 1: Analyze & Plan**
-- Receives editing request from chat
-- Analyzes manuscript context
-- Creates structured action plan
-
-**Stage 2: Generate Patches**
-- Produces minimal, precise edits
-- Each patch includes before/after and rationale
-- Anchored to context for reliability
-
-**Stage 3: Execute with Validation**
-- Automatic quality checks
-- Style consistency validation
-- POV preservation
-- Metrics calculation
-
-**Stage 4: Report & Review**
-- Detailed execution summary
-- Applied vs. skipped patches
-- Quality metrics comparison
-- User-friendly review interface
-
-**Two Operating Modes:**
-
-**Analysis Mode:**
-- Story structure analysis
-- Character arc tracking
-- Pacing evaluation
-- Continuity checks
-
-**Editing Mode:**
-- Cascaded text improvements
-- Style refinement
-- Passive voice elimination
-- Adverb reduction
-
-### 📝 Professional Editor
-
-- Virtualized rendering for manuscripts of any size
-- Inline edit mode (Cmd/Ctrl+I)
-- Range selection: Sentence / Scene / Chapter / Book
-- Auto-save to localStorage
-- Active patch highlighting
-- Real-time word & character count
-
-### 🔀 Patch System
-
-Fine-grained editing with full transparency:
-
-1. AI generates minimal, precise patches
-2. Each patch anchored to surrounding context
-3. You see: **what was** → **what will be** → **why**
-4. Accept, Skip, or Edit manually
-5. A/B testing for stylistic variations
-
-### 📚 Story Bible (Auto-Generated)
-
-AI-powered consistency tracking:
-
-- **Characters** — names, descriptions, relationships
-- **World** — locations, settings, magic systems
-- **Glossary** — terminology, objects, concepts
-- **Timeline** — chronological event tracking
-
-### 📊 Quality Metrics
-
-Quantitative manuscript evaluation:
-
-- **Hook** — opening strength
-- **Clarity** — prose comprehensibility
-- **Tension** — narrative drive
-- **Voice** — authorial distinctiveness
-- **Pacing** — story rhythm
-- **Continuity** — logical consistency
-
-Before/after comparison for tracking improvements.
+There are no mode switches or manual configurations — it’s a single intelligent system that understands your intent and performs the necessary operations. Just like Cursor or Windsurf handle multiple coding tasks through one unified assistant, this agent brings the same seamless workflow to literary editing.
 
 ### 🚀 Quick Commands
 
