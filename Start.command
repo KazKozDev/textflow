@@ -1,66 +1,66 @@
 #!/bin/bash
 
-# Переходим в директорию скрипта
+# Navigate to script directory
 cd "$(dirname "$0")"
 
-# Порт для запуска
+# Port to run on
 PORT=5173
 
-echo "🔍 Проверка зависимостей..."
+echo "🔍 Checking dependencies..."
 
-# Проверяем наличие node_modules и package-lock.json
+# Check if node_modules and package-lock.json exist
 if [ ! -d "node_modules" ] || [ ! -f "package-lock.json" ]; then
-    echo "📦 Установка зависимостей..."
+    echo "📦 Installing dependencies..."
     npm install
     if [ $? -ne 0 ]; then
-        echo "❌ Ошибка установки зависимостей"
+        echo "❌ Error installing dependencies"
         exit 1
     fi
-    echo "✅ Зависимости установлены"
+    echo "✅ Dependencies installed"
 else
-    echo "✅ Зависимости уже установлены"
+    echo "✅ Dependencies already installed"
 fi
 
-echo "🧹 Очистка порта $PORT..."
-# Находим и убиваем процессы на указанном порту
+echo "🧹 Cleaning port $PORT..."
+# Find and kill processes on the specified port
 lsof -ti:$PORT | xargs kill -9 2>/dev/null
 
-# Убиваем старые процессы vite для этого проекта
+# Kill old vite processes for this project
 pkill -f "textflow/node_modules/.bin/vite" 2>/dev/null
 
-echo "✅ Порт очищен"
+echo "✅ Port cleaned"
 
-# Небольшая пауза для освобождения порта
+# Small pause to free up the port
 sleep 1
 
-echo "🚀 Запуск сервера на порту $PORT..."
-# Запускаем сервер в фоне
+echo "🚀 Starting server on port $PORT..."
+# Start server in background
 npm run dev &
 
-# Ждем пока сервер запустится
-echo "⏳ Ожидание запуска сервера..."
+# Wait for server to start
+echo "⏳ Waiting for server to start..."
 sleep 3
 
-# Проверяем, что сервер запустился
+# Check if server started
 if lsof -i:$PORT >/dev/null 2>&1; then
-    echo "✅ Сервер запущен успешно!"
+    echo "✅ Server started successfully!"
     
-    # Открываем в Safari
-    echo "🌐 Открытие Safari..."
+    # Open in Safari
+    echo "🌐 Opening Safari..."
     open -a Safari "http://localhost:$PORT"
     
     echo ""
     echo "================================"
-    echo "✨ TextFlow запущен!"
+    echo "✨ TextFlow is running!"
     echo "📍 URL: http://localhost:$PORT"
-    echo "🌐 Браузер: Safari"
+    echo "🌐 Browser: Safari"
     echo "================================"
     echo ""
-    echo "Для остановки сервера закройте это окно или нажмите Ctrl+C"
+    echo "To stop the server, close this window or press Ctrl+C"
     
-    # Ждем завершения процесса vite
+    # Wait for vite process to finish
     wait
 else
-    echo "❌ Ошибка: сервер не запустился"
+    echo "❌ Error: server did not start"
     exit 1
 fi

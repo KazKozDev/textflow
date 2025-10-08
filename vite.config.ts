@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
     console.log('Loaded API_KEY:', env.API_KEY ? 'Found' : 'Not found');
     return {
       server: {
-        port: 3000,
+        port: 5173,
         host: '0.0.0.0',
       },
       plugins: [react()],

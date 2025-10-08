@@ -368,26 +368,6 @@ Search by meaning, not just keywords:
 
 ---
 
-## 📈 Project Status
-
-**Current version:** v1.0.0
-
-### ✅ Production-Ready Features
-
-- ✅ Natural Language Chat Interface
-- ✅ AI Agent with Cascade Workflow
-- ✅ Patch System with anchors
-- ✅ Auto-generated Story Bible
-- ✅ Local Checks (style + POV)
-- ✅ Proofreading Pipeline
-- ✅ Metrics Analysis
-- ✅ History & Versioning
-- ✅ Import/Export (6 formats)
-- ✅ Rules & Constraints
-- ✅ Performance Monitoring
-
----
-
 ## 🤝 Contributing
 
 Contributions welcome! Please:
