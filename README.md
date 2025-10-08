@@ -28,6 +28,9 @@ TextFlow is an **IWE (Integrated Writing Environment)** that combines traditiona
 - **Quality Metrics** — quantitative manuscript evaluation
 - **Version History** — semantic versioning with full rollback
 
+<img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
+
+
 ### Who Is This For?
 
 - **Writers** — working on novels and long-form fiction
