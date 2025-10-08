@@ -2,10 +2,13 @@
 <div align="center">
   <img height="90" alt="txt" src="https://github.com/user-attachments/assets/d0c7d6d9-d242-442f-9cee-c5f356cc8ddc" />
 </div>
-<br>
-Intelligent prose editing. Natural conversation with your editing assistant.
+<br><br>
 
-**TextFlow** is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
+<div align="center">
+Intelligence meets prose.
+</div>
+<br>
+TextFlow is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
 
 ### Who Is This For?
 
