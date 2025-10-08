@@ -1,24 +1,9 @@
-# 📝 TextFlow
 
-> AI-powered Integrated Writing Environment with **Cascade Agent Architecture**
 
-[![AI Agent](https://img.shields.io/badge/Architecture-AI_Agent-FF6B6B?style=flat&logo=openai&logoColor=white)](https://github.com/KazKozDev/textflow)
-[![Function Calling](https://img.shields.io/badge/LLM-Function_Calling-9B59B6?style=flat&logo=databricks&logoColor=white)](https://github.com/KazKozDev/textflow)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
 
-**TextFlow** is an AI-powered Integrated Writing Environment designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
+**TextFlow** is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
 
-[Get Started](#-quick-start) • [Features](#-core-features) • [Cascade Architecture](#-cascade-architecture)
-
----
-
-## 🎯 What is TextFlow?
-
-TextFlow is an **IWE (Integrated Writing Environment)** that combines traditional writing tools with cutting-edge AI cascade editing:
+TextFlow combines traditional writing tools with cutting-edge AI cascade editing:
 
 - **Smart Text Editor** supporting manuscripts of any length
 - **Natural Language Chat Interface** for commanding the AI agent (like Visual Studio Copilot or Cursor)
@@ -371,29 +356,8 @@ Search by meaning, not just keywords:
 
 ---
 
-## 🤝 Contributing
+If you like this project, please give it a star ⭐
 
-Contributions welcome! Please:
+For questions, feedback, or support, reach out to:
 
-1. Fork the repository
-2. Create feature branch
-3. Add tests if applicable
-4. Submit pull request
-
----
-
-## 📄 License
-
-[MIT License](LICENSE)
-
----
-
-## 📞 Contact
-
-Questions or suggestions? Create an [Issue](https://github.com/KazKozDev/textflow/issues) or reach out directly.
-
----
-
-<p align="center">
-  <sub>Made with ❤️ for writers and editors</sub>
-</p>
+[Artem KK](https://www.linkedin.com/in/kazkozdev/) | MIT [LICENSE](LICENSE) 
