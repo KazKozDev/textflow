@@ -39,7 +39,7 @@ The AI agent operates through a chat interface and has access to several core fu
 
 There are no mode switches or manual configurations — it’s a single intelligent system that understands your intent and performs the necessary operations. Just like Cursor or Windsurf handle multiple coding tasks through one unified assistant, this agent brings the same seamless workflow to literary editing.
 
-### 🚀 Quick Commands
+### Quick Commands
 
 Pre-built prompts for common editing tasks (accessible via chat):
 
@@ -52,7 +52,7 @@ Pre-built prompts for common editing tasks (accessible via chat):
 | **Line Editing** | • Tighten prose<br>• Fix passive voice<br>• Remove redundant adverbs |
 
 
-### 📦 Import/Export
+### Import/Export
 
 **Import:**
 - Files: `.txt`, `.docx`, `.pdf`
@@ -132,7 +132,7 @@ Agent presents results in chat:
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
