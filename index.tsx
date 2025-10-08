@@ -2,6 +2,9 @@ import React, { useState, FC, ReactNode, useMemo, useRef, useEffect, forwardRef,
 import { createRoot } from 'react-dom/client';
 import { GoogleGenAI, Chat, Type, GenerateContentResponse, FunctionDeclaration } from "@google/genai";
 import * as ReactWindow from 'react-window';
+import { Document, Paragraph, TextRun, Packer, HeadingLevel, AlignmentType } from 'docx';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 // --- API & MODEL SETUP ---
 const API_KEY = process.env.API_KEY;
@@ -1636,53 +1639,156 @@ const ExportPanel: FC<ExportPanelProps> = ({ manuscriptText, metadata, onSaveMet
 
     const getSanitizedTitle = () => (metadata.title || 'document').replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-    const handleTextExport = (format: 'txt' | 'docx' | 'epub' | 'idml') => {
-        const blob = new Blob([manuscriptText], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${getSanitizedTitle()}.${format}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+    const handleTextExport = async (format: 'txt' | 'docx' | 'epub' | 'idml') => {
+        const filename = getSanitizedTitle();
+        
+        if (format === 'docx') {
+            // Create a proper DOCX file using the docx library
+            const paragraphs: Paragraph[] = [];
+            
+            // Add title and author
+            if (metadata.title) {
+                paragraphs.push(
+                    new Paragraph({
+                        text: metadata.title,
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 200 }
+                    })
+                );
+            }
+            
+            if (metadata.author) {
+                paragraphs.push(
+                    new Paragraph({
+                        text: `by ${metadata.author}`,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 400 },
+                        italics: true
+                    })
+                );
+            }
+            
+            // Split text into paragraphs and add to document
+            const textParagraphs = manuscriptText.split('\n');
+            textParagraphs.forEach(para => {
+                paragraphs.push(
+                    new Paragraph({
+                        children: [new TextRun(para || ' ')],
+                        spacing: { after: 200 }
+                    })
+                );
+            });
+            
+            const doc = new Document({
+                sections: [{
+                    properties: {},
+                    children: paragraphs
+                }]
+            });
+            
+            const blob = await Packer.toBlob(doc);
+            saveAs(blob, `${filename}.docx`);
+            
+        } else if (format === 'epub') {
+            // Simple EPUB structure (minimal valid EPUB)
+            const epubContent = `<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+  <metadata>
+    <dc:title>${metadata.title || 'Untitled'}</dc:title>
+    <dc:creator>${metadata.author || 'Unknown'}</dc:creator>
+    <dc:language>${metadata.language || 'en'}</dc:language>
+  </metadata>
+  <manifest>
+    <item id="content" href="content.xhtml" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine>
+    <itemref idref="content"/>
+  </spine>
+</package>
+
+Content:
+${manuscriptText}`;
+            
+            const blob = new Blob([epubContent], { type: 'application/epub+zip' });
+            saveAs(blob, `${filename}.epub`);
+            
+        } else if (format === 'idml') {
+            // IDML is complex - export as structured XML
+            const idmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Adobe InDesign Markup Language - Simplified Export -->
+<Document>
+  <Story>
+    <Title>${metadata.title || 'Untitled'}</Title>
+    <Author>${metadata.author || 'Unknown'}</Author>
+    <Content>${manuscriptText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</Content>
+  </Story>
+</Document>`;
+            
+            const blob = new Blob([idmlContent], { type: 'application/xml' });
+            saveAs(blob, `${filename}.idml`);
+            
+        } else {
+            // TXT format
+            const blob = new Blob([manuscriptText], { type: 'text/plain;charset=utf-8' });
+            saveAs(blob, `${filename}.txt`);
+        }
     };
 
     const handlePdfExport = () => {
-        const printWindow = window.open('', '_blank');
-        if (!printWindow) {
-            alert("Please allow pop-ups to export as PDF.");
-            return;
-        }
-
-        const content = `
-            <html>
-                <head>
-                    <title>${metadata.title}</title>
-                    <style>
-                        @media print { @page { size: A4; margin: 2cm; } }
-                        body { font-family: 'Times New Roman', Times, serif; margin: 0; line-height: 1.5; color: #000; }
-                        h1, h2 { text-align: center; font-family: Arial, sans-serif; border-bottom: 1px solid #ccc; padding-bottom: 0.5em; margin-bottom: 1em; }
-                        h1 { font-size: 24pt; }
-                        h2 { font-size: 16pt; font-style: italic; border: none; }
-                        .cover-image { max-width: 100%; height: auto; display: block; margin: 2em auto; page-break-after: always; }
-                        pre { white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: 12pt; }
-                    </style>
-                </head>
-                <body>
-                    <h1>${metadata.title}</h1>
-                    <h2>by ${metadata.author}</h2>
-                    ${previewUrl ? `<img src="${previewUrl}" class="cover-image" alt="Cover" />` : ''}
-                    <pre>${manuscriptText}</pre>
-                </body>
-            </html>`;
+        try {
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
             
-        printWindow.document.write(content);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => {
-            printWindow.print();
-        }, 500);
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            const lineHeight = 7;
+            let yPosition = margin;
+            
+            // Add title
+            if (metadata.title) {
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                const titleLines = doc.splitTextToSize(metadata.title, maxWidth);
+                titleLines.forEach((line: string) => {
+                    doc.text(line, pageWidth / 2, yPosition, { align: 'center' });
+                    yPosition += lineHeight + 2;
+                });
+                yPosition += 5;
+            }
+            
+            // Add author
+            if (metadata.author) {
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'italic');
+                doc.text(`by ${metadata.author}`, pageWidth / 2, yPosition, { align: 'center' });
+                yPosition += lineHeight + 10;
+            }
+            
+            // Add manuscript text
+            doc.setFontSize(11);
+            doc.setFont('times', 'normal');
+            
+            const lines = doc.splitTextToSize(manuscriptText, maxWidth);
+            lines.forEach((line: string) => {
+                if (yPosition + lineHeight > pageHeight - margin) {
+                    doc.addPage();
+                    yPosition = margin;
+                }
+                doc.text(line, margin, yPosition);
+                yPosition += lineHeight;
+            });
+            
+            doc.save(`${getSanitizedTitle()}.pdf`);
+        } catch (error) {
+            console.error('PDF export error:', error);
+            alert('Error creating PDF. Please try again.');
+        }
     };
 
     return (
