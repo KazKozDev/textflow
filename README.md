@@ -2,10 +2,13 @@
 
 > AI-powered Integrated Writing Environment with **Cascade Agent Architecture**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/react-18-blue)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/typescript-5-blue)](https://www.typescriptlang.org/)
+[![AI Agent](https://img.shields.io/badge/Architecture-AI_Agent-FF6B6B?style=flat&logo=openai&logoColor=white)](https://github.com/KazKozDev/textflow)
+[![Function Calling](https://img.shields.io/badge/LLM-Function_Calling-9B59B6?style=flat&logo=databricks&logoColor=white)](https://github.com/KazKozDev/textflow)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
 
 **TextFlow** is an AI-powered Integrated Writing Environment designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
 
@@ -24,6 +27,13 @@ TextFlow is an **IWE (Integrated Writing Environment)** that combines traditiona
 - **Patch System** — precise, auditable edits with rationale for each change
 - **Quality Metrics** — quantitative manuscript evaluation
 - **Version History** — semantic versioning with full rollback
+
+### Who Is This For?
+
+- **Writers** — working on novels and long-form fiction
+- **Editors** — professional literary editing
+- **Screenwriters** — screenplay and dramatic works
+- **Authors** — any structured manuscript requiring consistency
 
 ### What Makes TextFlow Different?
 
@@ -117,14 +127,6 @@ Fine-grained editing with full transparency:
 3. You see: **what was** → **what will be** → **why**
 4. Accept, Skip, or Edit manually
 5. A/B testing for stylistic variations
-
-**Hotkeys:**
-- `A` — Accept patch
-- `S` — Skip patch
-- `E` — Edit result
-- `N` — Next patch
-- `P` — Previous patch
-- `Y` — Sync anchors
 
 ### 📚 Story Bible (Auto-Generated)
 
@@ -263,6 +265,7 @@ Agent presents results in chat:
 
 - **Node.js 18+** ([download](https://nodejs.org/))
 - **Google AI API key** ([get here](https://ai.google.dev/))
+- **Safari browser** (recommended for best performance and compatibility)
 
 ### Installation
 
@@ -383,17 +386,6 @@ Search by meaning, not just keywords:
 - ✅ Rules & Constraints
 - ✅ Performance Monitoring
 
-See **ROADMAP.md** for upcoming features.
-
----
-
-## 🎯 Who Is This For?
-
-- ✍️ **Writers** — working on novels and long-form fiction
-- 📚 **Editors** — professional literary editing
-- 🎬 **Screenwriters** — screenplay and dramatic works
-- 📝 **Authors** — any structured manuscript requiring consistency
-
 ---
 
 ## 🤝 Contributing
@@ -410,14 +402,6 @@ Contributions welcome! Please:
 ## 📄 License
 
 [MIT License](LICENSE)
-
----
-
-## 🙏 Acknowledgments
-
-Built with **Google Gemini API**.
-
-Inspired by cascade architecture and natural language interfaces from modern AI-assisted development tools (Windsurf, Cursor, Visual Studio Copilot).
 
 ---
 
