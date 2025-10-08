@@ -1,126 +1,156 @@
-# IWE TextFlow
+# 📝 TextFlow
 
-[![AI Agent](https://img.shields.io/badge/Architecture-AI_Agent-FF6B6B?style=flat&logo=openai&logoColor=white)](https://github.com/KazKozDev/textflow)
-[![Function Calling](https://img.shields.io/badge/LLM-Function_Calling-9B59B6?style=flat&logo=databricks&logoColor=white)](https://github.com/KazKozDev/textflow)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
+> AI-powered Integrated Writing Environment with **Cascade Agent Architecture**
 
-**IWE TextFlow** is an AI-powered Integrated Writing Environment designed for professional literary editing with intelligent cascade architecture. Similar to how IDEs (Integrated Development Environments) serve software developers, IWE (Integrated Writing Environment) provides writers with comprehensive functionality for writing and knowledge management within a single, distraction-free environment. TextFlow brings this concept into the AI era by combining traditional IWE capabilities with intelligent cascade editing, automated story consistency tracking, and AI-assisted manuscript refinement powered by Google Gemini 2.5 Flash.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/react-18-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/typescript-5-blue)](https://www.typescriptlang.org/)
 
-This tool is built for writers, editors, and creative professionals working on long-form narrative projects. While designed primarily for fiction editing, TextFlow is applicable to any structured manuscript that requires consistency, style polish, and narrative coherence—including novels, short stories, screenplays, and other long-form works. If you're working on a project where maintaining character consistency, tracking plot continuity, and achieving stylistic unity matter, TextFlow provides the intelligent editing infrastructure to support your creative process.
+**TextFlow** is an AI-powered Integrated Writing Environment designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
+
+[Get Started](#-quick-start) • [Features](#-core-features) • [Cascade Architecture](#-cascade-architecture)
 
 ---
 
-## Core Features
+## 🎯 What is TextFlow?
 
-### 🤖 AI Agent (TextFlow)
-Intelligent editing agent powered by Google Gemini 2.5 Flash with function calling capabilities.
+TextFlow is an **IWE (Integrated Writing Environment)** that combines traditional writing tools with cutting-edge AI cascade editing:
 
-**Two modes of operation:**
-- **Analysis Mode**: Story structure analysis, character arc tracking, pacing evaluation, continuity checks
-- **Editing Mode**: Automated text improvements via Cascade Workflow (see Architecture)
+- **Smart Text Editor** supporting manuscripts of any length
+- **Natural Language Chat Interface** for commanding the AI agent (like Visual Studio Copilot or Cursor)
+- **AI Agent with Cascade Workflow** powered by Google Gemini 2.5 Flash
+- **Story Bible** — auto-generated knowledge base for characters, world, and timeline
+- **Patch System** — precise, auditable edits with rationale for each change
+- **Quality Metrics** — quantitative manuscript evaluation
+- **Version History** — semantic versioning with full rollback
 
-**Agent capabilities:**
-- `get_document_context` — retrieves manuscript text, anchors, rules, and memory
-- `execute_edit_plan` — executes editing plans with automated quality checks
-- `refresh_bible` — updates Story Bible with new information
-- `analyze_manuscript_for_bible` — builds comprehensive Story Bible from full manuscript
+### What Makes TextFlow Different?
 
-### 📝 Text Editor
-High-performance editor with virtualization support for manuscripts of any length.
+**Cascade Agent Architecture** — Unlike simple chat-based editors, TextFlow uses a four-stage cascade pipeline that ensures every edit is validated, auditable, and reversible. Think of it as CI/CD for prose.
 
-**Key features:**
-- Zoom controls for comfortable reading
-- Smart text highlighting for active patches
-- Auto-save to localStorage
+---
+
+## ✨ Core Features
+
+### 💬 Natural Language Chat Interface
+
+**Command your AI agent like in Visual Studio or Cursor** — TextFlow features an intuitive chat interface where you can instruct the agent using plain English:
+
+**How it works:**
+- Type natural language commands: "Remove passive voice from Chapter 3" or "Make the dialogue more authentic"
+- Agent understands context and manuscript structure
+- Get instant feedback and execution plans
+- Review changes before applying them
+
+**Examples:**
+```
+"Strengthen the opening hook"
+"Add more sensory details to the forest scene"
+"Check if Emma's character development is consistent"
+"Improve pacing in the action sequence"
+"Find all instances of telling instead of showing"
+```
+
+**Just like in modern IDEs:**
+- Visual Studio Copilot — for code assistance
+- Cursor AI — for intelligent code editing
+- **TextFlow** — for intelligent prose editing
+
+No complex commands or syntax — just natural conversation with your editing assistant.
+
+### 🤖 Cascade AI Agent
+
+**The heart of TextFlow** — an intelligent agent that processes editing requests through a multi-stage cascade workflow:
+
+**Stage 1: Analyze & Plan**
+- Receives editing request from chat
+- Analyzes manuscript context
+- Creates structured action plan
+
+**Stage 2: Generate Patches**
+- Produces minimal, precise edits
+- Each patch includes before/after and rationale
+- Anchored to context for reliability
+
+**Stage 3: Execute with Validation**
+- Automatic quality checks
+- Style consistency validation
+- POV preservation
+- Metrics calculation
+
+**Stage 4: Report & Review**
+- Detailed execution summary
+- Applied vs. skipped patches
+- Quality metrics comparison
+- User-friendly review interface
+
+**Two Operating Modes:**
+
+**Analysis Mode:**
+- Story structure analysis
+- Character arc tracking
+- Pacing evaluation
+- Continuity checks
+
+**Editing Mode:**
+- Cascaded text improvements
+- Style refinement
+- Passive voice elimination
+- Adverb reduction
+
+### 📝 Professional Editor
+
+- Virtualized rendering for manuscripts of any size
 - Inline edit mode (Cmd/Ctrl+I)
-- Sentence/scene/chapter/book range selection
-- Real-time word and character count
+- Range selection: Sentence / Scene / Chapter / Book
+- Auto-save to localStorage
+- Active patch highlighting
+- Real-time word & character count
 
 ### 🔀 Patch System
-Fine-grained editing with anchor-based patch tracking.
 
-**Workflow:**
+Fine-grained editing with full transparency:
+
 1. AI generates minimal, precise patches
-2. Each patch includes `before_excerpt`, `after_proposed`, and `rationale`
-3. Patches are anchored to surrounding context for reliability
-4. Review in Diff Panel: Accept, Skip, or Edit
-5. A/B testing support for stylistic variations
-6. Sync feature to update patches if source text changes
+2. Each patch anchored to surrounding context
+3. You see: **what was** → **what will be** → **why**
+4. Accept, Skip, or Edit manually
+5. A/B testing for stylistic variations
 
 **Hotkeys:**
 - `A` — Accept patch
 - `S` — Skip patch
 - `E` — Edit result
-- `Y` — Sync before
 - `N` — Next patch
 - `P` — Previous patch
+- `Y` — Sync anchors
 
-### 📚 Story Bible
-Auto-generated knowledge base for narrative consistency.
+### 📚 Story Bible (Auto-Generated)
 
-**Tracks:**
-- **Characters**: Names, descriptions, relationships
-- **World**: Locations, settings, magic systems
-- **Glossary**: Terminology, recurring objects, concepts
-- **Timeline**: Events in chronological order
+AI-powered consistency tracking:
 
-Automatically built via agent analysis. Persistent across sessions. Editable by user.
+- **Characters** — names, descriptions, relationships
+- **World** — locations, settings, magic systems
+- **Glossary** — terminology, objects, concepts
+- **Timeline** — chronological event tracking
 
-### 🔍 Local Checks
-AI-free validation for instant feedback.
+### 📊 Quality Metrics
 
-**Style checks:**
-- Adverb detection (words ending in `-ly`)
-- Passive voice detection (`was/were/been + past participle`)
+Quantitative manuscript evaluation:
 
-**POV checks:**
-- First person vs. third person consistency
-- Rule-based validation against manuscript rules
+- **Hook** — opening strength
+- **Clarity** — prose comprehensibility
+- **Tension** — narrative drive
+- **Voice** — authorial distinctiveness
+- **Pacing** — story rhythm
+- **Continuity** — logical consistency
 
-### ✏️ Proofreading Pipeline
-AI-powered annotation system for copyediting stage.
-
-**Process:**
-- Runs through entire manuscript
-- Generates annotations with confidence scores
-- Highlights: grammar, punctuation, style inconsistencies, typos
-- Designed for final pass after structural editing
-
-Trigger: **Ctrl+R**
-
-### 📊 Metrics Analysis
-Quantitative evaluation of manuscript quality.
-
-**Metrics tracked:**
-- **Hook**: Opening strength
-- **Clarity**: Prose comprehensibility
-- **Tension**: Narrative drive
-- **Voice**: Authorial distinctiveness
-- **Pacing**: Story rhythm
-- **Continuity**: Logical consistency
-
-Before/after comparison available after edits.
-
-### 📜 History & Versioning
-Semantic versioning for all document changes.
-
-**Features:**
-- Full edit history with version tags (`v1.0.0`, `v1.1.0`, etc.)
-- Rollback to any previous version
-- Undo/Redo via history
-- Change attribution (user vs. agent)
-
-### 🔎 Search
-Dual search modes:
-- **Exact Match**: Fast literal text search
-- **Semantic (AI)**: Meaning-based search across document
+Before/after comparison for tracking improvements.
 
 ### 🚀 Quick Commands
-Pre-built prompts for common editing tasks:
+
+Pre-built prompts for common editing tasks (accessible via chat):
 
 **Foundation:**
 - Build Story Bible
@@ -128,7 +158,7 @@ Pre-built prompts for common editing tasks:
 - Track character development
 
 **Structure Analysis:**
-- Analyze main character arc
+- Analyze character arcs
 - Identify plot holes
 - Check continuity errors
 
@@ -150,262 +180,201 @@ Pre-built prompts for common editing tasks:
 ### 📦 Import/Export
 
 **Import:**
-- File upload (`.txt`, `.docx`, `.pdf`)
-- Import from URL with AI-powered HTML parsing
+- Files: `.txt`, `.docx`, `.pdf`
+- URLs with AI-powered HTML parsing
 
 **Export formats:**
-- PDF (print-ready)
-- EPUB (e-readers)
-- DOCX (Microsoft Word)
-- IDML (InDesign)
-- TXT (plain text)
-- JSON (full project backup with all state)
-
-### ⚙️ Rules & Constraints
-Define manuscript-specific guidelines for AI to follow.
-
-**Configuration:**
-- Point of View (First/Third Person)
-- Custom instructions
-- Forbidden words/phrases
-- Preferred vocabulary
-- Character name constraints
-
-Rules are automatically injected into AI system instructions.
-
-### 📈 Agent Performance Log
-Complete transparency into AI operations.
-
-**Logs:**
-- All function calls
-- Tool execution times
-- Token usage
-- Success/failure rates
+- `PDF` — print-ready
+- `EPUB` — e-readers
+- `DOCX` — Microsoft Word
+- `IDML` — Adobe InDesign
+- `TXT` — plain text
+- `JSON` — full project backup
 
 ---
 
-## Architecture
+## 🏗️ Cascade Architecture
 
-### The Cascade Workflow
+### Why Cascade?
 
-TextFlow uses a **Cascade Architecture** for editing — a four-stage pipeline that ensures high-quality, auditable changes.
+Traditional AI editors work like this:
+```
+User Request → AI Response → Done
+```
+
+TextFlow's cascade ensures quality:
+```
+Chat Command → Analyze → Generate → Validate → Report
+```
+
+### The Four-Stage Pipeline
 
 #### Stage 1: Analyze & Plan
-- Agent receives editing request (e.g., "Remove passive voice from Chapter 3")
-- Calls `get_document_context` to retrieve relevant text, rules, and memory
-- Creates actionable plan (TODO list) outlining specific steps
+- Agent receives editing instruction via chat
+- Calls `get_document_context` to retrieve text, rules, and memory
+- Creates actionable TODO list with specific steps
 
 #### Stage 2: Generate Patches
-- For each plan step, agent generates minimal, precise patches
-- Each patch includes:
-  - `before_anchor`: Context before target
-  - `before_excerpt`: Text to replace
-  - `after_anchor`: Context after target
-  - `after_proposed`: New text (can be array for A/B testing)
-  - `rationale`: Reasoning and checks to run
-- Anchors ensure patches remain valid even if document changes
-
-#### Stage 3: Execute with Validation
-- Calls `execute_edit_plan` tool with plan + patches
-- Tool runs automated checks:
-  - **Anchor validation**: Ensures patch location is correct
-  - **Style checks**: No new passive voice, minimize adverbs
-  - **POV checks**: Maintains narrative voice consistency
-  - **Metrics calculation**: Before/after quality scores
-- Only valid patches are applied
-- Failed patches are logged with reasons
-
-#### Stage 4: Report
-- Agent receives detailed execution results
-- Presents natural language summary to user
-- Provides comprehensive JSON report:
-  - Applied patches
-  - Skipped patches (with reasons)
-  - Metrics comparison
-  - Story Bible updates
-
-**Benefits:**
-- **Auditability**: Every change has a rationale and validation trail
-- **Safety**: Multi-layer checks prevent degradation
-- **Transparency**: User sees exactly what changed and why
-- **Revertibility**: All changes tracked in history with semantic versions
-
-### Patch System Design
-
-Patches use **anchor-based targeting** instead of line numbers:
-
+For each plan item, the agent generates:
 ```json
 {
-  "id": "patch_001",
-  "before_anchor": "John walked into the",
-  "before_excerpt": "was opened by him",
-  "after_anchor": "and looked around",
-  "after_proposed": "he opened",
-  "rationale": "Remove passive voice"
+  "before_anchor": "context before target",
+  "before_excerpt": "text to replace",
+  "after_anchor": "context after target",
+  "after_proposed": "new text",
+  "rationale": "why this change improves the text"
 }
 ```
 
-**Advantages over line-based diffs:**
-- Robust to concurrent edits
-- Works with streaming changes
-- Human-readable
-- AI-native format
+#### Stage 3: Execute with Validation
+Calls `execute_edit_plan` tool which runs:
+- ✅ Anchor validation — ensures correct location
+- ✅ Style checks — no new passive voice, minimal adverbs
+- ✅ POV checks — maintains narrative consistency
+- ✅ Metrics calculation — before/after quality scores
 
-### State Management
+Only validated patches are applied.
 
-**Local-first architecture:**
-- All data persists to `localStorage`
-- No backend required
-- Export/import for portability
-- Chat history, patches, Story Bible, and manuscript all saved
+#### Stage 4: Report
+Agent presents results in chat:
+- Natural language summary
+- Comprehensive JSON report
+- Applied patches with reasons
+- Skipped patches with explanations
+- Metrics comparison
 
-**State structure:**
-```typescript
-{
-  manuscriptText: string;
-  chatHistory: Message[];
-  patches: Patch[];
-  storyBible: StoryBible;
-  manuscriptRules: ManuscriptRules;
-  history: HistoryEntry[];
-  annotations: Annotation[];
-  performanceLog: PerformanceEntry[];
-}
-```
+### Benefits of Cascade Architecture
 
----
+**🔍 Auditability** — Every change has rationale and validation trail
 
-## Tech Stack
+**🛡️ Safety** — Multi-layer checks prevent quality degradation
 
-- **React 18** + **TypeScript** — UI framework with strict typing
-- **Vite** — Build tool and dev server
-- **Google Gemini 2.5 Flash** — AI model with function calling
-- **react-window** — Virtualization for large documents
-- **localStorage** — Persistent state management
+**📖 Transparency** — Users see exactly what changed and why
 
-**No backend required.** Fully client-side application.
+**⏮️ Revertibility** — All changes tracked in semantic version history
+
+**🎯 Precision** — Anchor-based patches remain valid even during concurrent edits
 
 ---
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
-- **Node.js 18+** (the project uses Node 18)
-- **npm** (comes with Node.js)
-- **Google AI API key** ([Get it here](https://ai.google.dev/))
+- **Node.js 18+** ([download](https://nodejs.org/))
+- **Google AI API key** ([get here](https://ai.google.dev/))
 
 ### Installation
 
-#### 1. Clone the repository
-
+**1. Clone the repository**
 ```bash
 git clone https://github.com/KazKozDev/textflow.git
 cd textflow
 ```
 
-#### 2. Install dependencies
-
+**2. Install dependencies**
 ```bash
 npm install
 ```
 
-#### 3. Start the development server
-
+**3. Start development server**
 ```bash
 npm run dev
 ```
 
-The application will open at `http://localhost:5173`
+App opens at: `http://localhost:5173`
 
 ### Quick Start (macOS)
 
-**For macOS users:** Simply double-click the `Start.command` file in the project root. This will automatically:
-- Install dependencies (if needed)
-- Start the development server
-- Open the app in your default browser
+Double-click `Start.command` file — it will automatically:
+- Install dependencies
+- Start dev server
+- Open app in browser
 
-### Configuration
+### API Key Configuration
 
-#### API Key Setup
-
-Add your Google AI API key to the application:
-1. Open the app in your browser
-2. Navigate to the **Settings/Import** tab
-3. Enter your API key when prompted
-4. The key will be saved in browser's localStorage
-
-Alternatively, you can modify the code to read the API key from an environment variable.
-
-### Development
-
-```bash
-# Start dev server (port 5173)
-npm run dev
-```
-
-### Build
-
-```bash
-# Create production build
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-### Docker
-
-```bash
-# Build and run with Docker
-docker build -t manuscript-editor .
-docker run -p 5173:5173 manuscript-editor
-```
+1. Open the app
+2. Go to **Settings/Import** tab
+3. Enter your Google AI API key
+4. Key saves to browser localStorage
 
 ---
 
-## Usage
+## 📖 Usage
 
-### Basic Editing Workflow
+### Basic Workflow
 
-1. **Load manuscript**: Import file or paste text
-2. **Set rules**: Configure POV, constraints, vocabulary (optional)
-3. **Select range**: Choose Selection/Scene/Chapter/Book
-4. **Give instruction**: Use Quick Commands or write custom prompt
-5. **Review patches**: Accept, skip, or edit in Diff Panel
-6. **Build Story Bible**: Run "Build Story Bible" command for consistency tracking
+1. **Load manuscript** — import file or paste text
+2. **Set rules** — configure POV, constraints, vocabulary
+3. **Open chat** — start conversation with AI agent
+4. **Give commands** — use natural language: "Fix passive voice in Chapter 2"
+5. **Review cascade** — see AI's plan, patches, and validation results
+6. **Accept or edit** — review patches one by one
+7. **Build Story Bible** — ensure consistency tracking
 
-### Advanced Features
+### Chat Interface Examples
 
-**Inline Edit (Cmd+I):**
-- Select text → Cmd+I → Enter instruction → AI replaces instantly
-- No patch review, direct application
+**Structural editing:**
+```
+"Analyze the pacing of Chapter 5"
+"Check if the character arc is consistent throughout"
+"Find plot holes in the mystery storyline"
+```
 
-**A/B Testing:**
-- Agent can provide multiple variants in `after_proposed`
-- System automatically scores and selects best option
-- User can override via Edit mode
+**Style improvements:**
+```
+"Remove passive voice from the selected scene"
+"Make the dialogue more natural and authentic"
+"Add sensory details to the description"
+```
 
-**Semantic Search:**
-- Find concepts, not just exact text
-- Example: Search "betrayal" finds thematically related passages
+**Consistency checks:**
+```
+"Verify that Emma's eye color is consistent"
+"Check timeline continuity for the battle scene"
+"Update Story Bible with new character information"
+```
 
-**Metrics Tracking:**
-- Run "Update Metrics" after major edits
-- Compare scores before/after
-- Track improvement over time
+### Inline Editing
+
+Quick edits without patch review:
+
+1. Select text
+2. Press `Cmd+I` (or `Ctrl+I`)
+3. Enter instruction
+4. AI replaces instantly
+
+### Semantic Search
+
+Search by meaning, not just keywords:
+
+- Search "betrayal" finds thematically related passages
+- AI understands context and concepts
 
 ---
 
-## Project Status
+## 🛠️ Tech Stack
 
-**Current version:** v1.0.0 (semantic versioning)
+- **React 18** + **TypeScript** — UI with strict typing
+- **Vite** — build tool and dev server
+- **Google Gemini 2.5 Flash** — AI model with function calling
+- **react-window** — virtualization for large documents
+- **localStorage** — persistent state management
 
-**Production-ready features:**
-- ✅ AI Chat Agent with Cascade Workflow
+**No backend required** — fully client-side application.
+
+---
+
+## 📈 Project Status
+
+**Current version:** v1.0.0
+
+### ✅ Production-Ready Features
+
+- ✅ Natural Language Chat Interface
+- ✅ AI Agent with Cascade Workflow
 - ✅ Patch System with anchors
-- ✅ Story Bible auto-generation
+- ✅ Auto-generated Story Bible
 - ✅ Local Checks (style + POV)
 - ✅ Proofreading Pipeline
 - ✅ Metrics Analysis
@@ -414,26 +383,50 @@ docker run -p 5173:5173 manuscript-editor
 - ✅ Rules & Constraints
 - ✅ Performance Monitoring
 
-**See ROADMAP.md for planned features.**
+See **ROADMAP.md** for upcoming features.
 
 ---
 
-## Contributing
+## 🎯 Who Is This For?
 
-Contributions welcome. Please:
-1. Fork repository
+- ✍️ **Writers** — working on novels and long-form fiction
+- 📚 **Editors** — professional literary editing
+- 🎬 **Screenwriters** — screenplay and dramatic works
+- 📝 **Authors** — any structured manuscript requiring consistency
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+
+1. Fork the repository
 2. Create feature branch
 3. Add tests if applicable
 4. Submit pull request
 
 ---
 
-## License
+## 📄 License
 
-MIT License
+[MIT License](LICENSE)
 
 ---
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-Built with Google Gemini API. Inspired by Cascade architecture from modern AI-assisted development tools.
+Built with **Google Gemini API**.
+
+Inspired by cascade architecture and natural language interfaces from modern AI-assisted development tools (Windsurf, Cursor, Visual Studio Copilot).
+
+---
+
+## 📞 Contact
+
+Questions or suggestions? Create an [Issue](https://github.com/KazKozDev/textflow/issues) or reach out directly.
+
+---
+
+<p align="center">
+  <sub>Made with ❤️ for writers and editors</sub>
+</p>
