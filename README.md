@@ -125,30 +125,14 @@ Before/after comparison for tracking improvements.
 
 Pre-built prompts for common editing tasks (accessible via chat):
 
-**Foundation:**
-- Build Story Bible
-- Update timeline consistency
-- Track character development
+| Category | Commands |
+|----------|----------|
+| **Foundation** | • Build Story Bible<br>• Update timeline consistency<br>• Track character development |
+| **Structure Analysis** | • Analyze character arcs<br>• Identify plot holes<br>• Check continuity errors |
+| **Story Flow** | • Evaluate pacing and tension<br>• Strengthen opening hook<br>• Improve scene transitions |
+| **Scene Polish** | • Review dialogue authenticity<br>• Add sensory details<br>• Enhance character voice |
+| **Line Editing** | • Tighten prose<br>• Fix passive voice<br>• Remove redundant adverbs |
 
-**Structure Analysis:**
-- Analyze character arcs
-- Identify plot holes
-- Check continuity errors
-
-**Story Flow:**
-- Evaluate pacing and tension
-- Strengthen opening hook
-- Improve scene transitions
-
-**Scene Polish:**
-- Review dialogue authenticity
-- Add sensory details
-- Enhance character voice
-
-**Line Editing:**
-- Tighten prose
-- Fix passive voice
-- Remove redundant adverbs
 
 ### 📦 Import/Export
 
