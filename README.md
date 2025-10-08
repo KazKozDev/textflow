@@ -167,49 +167,7 @@ Double-click `Start.command` file — it will automatically:
 - Start dev server
 - Open app in browser
 
-### API Key Configuration
-
-1. Open the app
-2. Go to **Settings/Import** tab
-3. Enter your Google AI API key
-4. Key saves to browser localStorage
-
 ---
-
-## 📖 Usage
-
-### Basic Workflow
-
-1. **Load manuscript** — import file or paste text
-2. **Set rules** — configure POV, constraints, vocabulary
-3. **Open chat** — start conversation with AI agent
-4. **Give commands** — use natural language: "Fix passive voice in Chapter 2"
-5. **Review cascade** — see AI's plan, patches, and validation results
-6. **Accept or edit** — review patches one by one
-7. **Build Story Bible** — ensure consistency tracking
-
-### Chat Interface Examples
-
-**Structural editing:**
-```
-"Analyze the pacing of Chapter 5"
-"Check if the character arc is consistent throughout"
-"Find plot holes in the mystery storyline"
-```
-
-**Style improvements:**
-```
-"Remove passive voice from the selected scene"
-"Make the dialogue more natural and authentic"
-"Add sensory details to the description"
-```
-
-**Consistency checks:**
-```
-"Verify that Emma's eye color is consistent"
-"Check timeline continuity for the battle scene"
-"Update Story Bible with new character information"
-```
 
 ### Inline Editing
 
