@@ -8,19 +8,9 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
 
-AI-powered Integrated Writing Environment (IWE) with intelligent cascade architecture for professional literary editing.
+**IWE TextFlow** is an AI-powered Integrated Writing Environment designed for professional literary editing with intelligent cascade architecture. Similar to how IDEs (Integrated Development Environments) serve software developers, IWE (Integrated Writing Environment) provides writers with comprehensive functionality for writing and knowledge management within a single, distraction-free environment. TextFlow brings this concept into the AI era by combining traditional IWE capabilities with intelligent cascade editing, automated story consistency tracking, and AI-assisted manuscript refinement powered by Google Gemini 2.5 Flash.
 
-## What is an IWE?
-
-**IWE** (Integrated Writing Environment) is software that provides comprehensive functionality for writing and knowledge management for authors and information workers. Similar to how IDEs (Integrated Development Environments) serve software developers, IWEs offer writers the same efficiency and functionality benefits by enabling various document-related tasks within a single, distraction-free environment with a streamlined writing process.
-
-**IWE TextFlow** brings this concept into the AI era, combining traditional IWE capabilities with intelligent cascade editing, automated story consistency tracking, and AI-assisted manuscript refinement.
-
-## For Whom
-
-**Writers** • **Editors** • **Creative Professionals**
-
-Designed primarily for fiction editing but applicable to any long-form narrative work. If you're working on novels, short stories, screenplays, or any structured manuscript that requires consistency, style polish, and narrative coherence, this tool is for you.
+This tool is built for writers, editors, and creative professionals working on long-form narrative projects. While designed primarily for fiction editing, TextFlow is applicable to any structured manuscript that requires consistency, style polish, and narrative coherence—including novels, short stories, screenplays, and other long-form works. If you're working on a project where maintaining character consistency, tracking plot continuity, and achieving stylistic unity matter, TextFlow provides the intelligent editing infrastructure to support your creative process.
 
 ---
 
