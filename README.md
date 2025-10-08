@@ -24,11 +24,7 @@ The system includes Story Bible, which automatically generates and maintains kno
 
 <img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
 <br><br>
-How it works:
-- Type natural language commands: "Remove passive voice from Chapter 3" or "Make the dialogue more authentic"
-- Agent understands context and manuscript structure
-- Get instant feedback and execution plans
-- Review changes before applying them
+How it works. Type natural language commands: "Remove passive voice from Chapter 3" or "Make the dialogue more authentic. Agent understands context and manuscript structure. Get instant feedback and execution plans. Review changes before applying them.
 
 **Examples:**
 ```
