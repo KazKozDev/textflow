@@ -1,0 +1,5 @@
+{
+  "name": "Manuscript Editor",
+  "description": "An application to edit manuscripts with AI-powered chat and annotation sidebars.",
+  "requestFramePermissions": []
+}
