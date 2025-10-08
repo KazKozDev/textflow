@@ -5,7 +5,7 @@
 <br>
 
 <div align="center">
-Intelligence meets prose.
+When Intelligence meets prose.
 </div>
 <br>
 TextFlow is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with intelligent cascade architecture. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
