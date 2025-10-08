@@ -1,5 +1,9 @@
 
-
+<div align="center">
+  <img height="90" alt="txt" src="https://github.com/user-attachments/assets/d0c7d6d9-d242-442f-9cee-c5f356cc8ddc" />
+</div>
+<br>
+Intelligent prose editing. Natural conversation with your editing assistant.
 
 **TextFlow** is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
 
@@ -10,19 +14,12 @@
 - **Screenwriters** — screenplay and dramatic works
 - **Authors** — any structured manuscript requiring consistency
 
-TextFlow is a set of LLM tools for text editing based on a cascading architecture. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control, similar to Visual Studio Copilot or Cursor.
+TextFlow is a set of LLM tools for text editing. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control, similar to Visual Studio Copilot or Cursor.
 
 The system includes Story Bible, which automatically generates and maintains knowledge bases for characters, world-building, and timeline consistency. Every change goes through the Patch System, allowing you to review changes with a clear rationale for each change. Quality Metrics offers a quantitative assessment of the manuscript based on parameters such as clarity, tension, and pacing, while a complete version history with semantic versioning provides full rollback capability.
 
 <img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
 
-
-
-## ✨ Core Features
-
-### 💬 Natural Language Chat Interface
-
-**Command your AI agent like in Visual Studio or Cursor** — TextFlow features an intuitive chat interface where you can instruct the agent using plain English:
 
 **How it works:**
 - Type natural language commands: "Remove passive voice from Chapter 3" or "Make the dialogue more authentic"
@@ -38,13 +35,6 @@ The system includes Story Bible, which automatically generates and maintains kno
 "Improve pacing in the action sequence"
 "Find all instances of telling instead of showing"
 ```
-
-**Just like in modern IDEs:**
-- Visual Studio Copilot — for code assistance
-- Cursor AI — for intelligent code editing
-- **TextFlow** — for intelligent prose editing
-
-No complex commands or syntax — just natural conversation with your editing assistant.
 
 ### 🤖 Cascade AI Agent
 
