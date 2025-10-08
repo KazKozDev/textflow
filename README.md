@@ -1,16 +1,13 @@
 # IWE TextFlow
 
-[![GitHub release](https://img.shields.io/github/v/release/KazKozDev/textflow?style=flat&logo=github)](https://github.com/KazKozDev/textflow/releases)
-[![GitHub stars](https://img.shields.io/github/stars/KazKozDev/textflow?style=flat&logo=github)](https://github.com/KazKozDev/textflow/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/KazKozDev/textflow?style=flat&logo=github)](https://github.com/KazKozDev/textflow/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/KazKozDev/textflow?style=flat&logo=github)](https://github.com/KazKozDev/textflow/issues)
-[![GitHub license](https://img.shields.io/github/license/KazKozDev/textflow?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
-
+[![AI Agent](https://img.shields.io/badge/Architecture-AI_Agent-FF6B6B?style=flat&logo=openai&logoColor=white)](https://github.com/KazKozDev/textflow)
+[![Function Calling](https://img.shields.io/badge/LLM-Function_Calling-9B59B6?style=flat&logo=databricks&logoColor=white)](https://github.com/KazKozDev/textflow)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Google AI](https://img.shields.io/badge/Google_AI-Gemini_2.5_Flash-4285F4?style=flat&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://github.com/KazKozDev/textflow/blob/main/LICENSE)
 
 AI-powered Integrated Writing Environment (IWE) with intelligent cascade architecture for professional literary editing.
 
