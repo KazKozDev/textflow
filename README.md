@@ -3,19 +3,6 @@
 
 **TextFlow** is an AI-powered Integrated Writing Environment (IWE) designed for professional literary editing with **intelligent cascade architecture**. Just as Windsurf and Cursor bring cascaded AI assistance to code, TextFlow brings the same paradigm to prose.
 
-TextFlow combines traditional writing tools with cutting-edge AI cascade editing:
-
-- **Smart Text Editor** supporting manuscripts of any length
-- **Natural Language Chat Interface** for commanding the AI agent (like Visual Studio Copilot or Cursor)
-- **AI Agent with Cascade Workflow** powered by Google Gemini 2.5 Flash
-- **Story Bible** — auto-generated knowledge base for characters, world, and timeline
-- **Patch System** — precise, auditable edits with rationale for each change
-- **Quality Metrics** — quantitative manuscript evaluation
-- **Version History** — semantic versioning with full rollback
-
-<img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
-
-
 ### Who Is This For?
 
 - **Writers** — working on novels and long-form fiction
@@ -23,11 +10,13 @@ TextFlow combines traditional writing tools with cutting-edge AI cascade editing
 - **Screenwriters** — screenplay and dramatic works
 - **Authors** — any structured manuscript requiring consistency
 
-### What Makes TextFlow Different?
+TextFlow is a set of LLM tools for text editing based on a cascading architecture. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control, similar to Visual Studio Copilot or Cursor.
 
-**Cascade Agent Architecture** — Unlike simple chat-based editors, TextFlow uses a four-stage cascade pipeline that ensures every edit is validated, auditable, and reversible. Think of it as CI/CD for prose.
+The system includes Story Bible, which automatically generates and maintains knowledge bases for characters, world-building, and timeline consistency. Every change goes through the Patch System, allowing you to review changes with a clear rationale for each change. Quality Metrics offers a quantitative assessment of the manuscript based on parameters such as clarity, tension, and pacing, while a complete version history with semantic versioning provides full rollback capability.
 
----
+<img width="1633" height="864" alt="Screenshot 2025-10-08 at 18 54 21" src="https://github.com/user-attachments/assets/4e355bdf-dc9e-4ef8-a27e-deecf879c39f" />
+
+
 
 ## ✨ Core Features
 
