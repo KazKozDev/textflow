@@ -18,7 +18,7 @@ TextFlow is an LLM-powered Integrated Writing Environment (IWE) for professional
 - **Screenwriters** — screenplay and dramatic works
 - **Authors** — any structured manuscript requiring consistency
 
-TextFlow is not just a set of LLM tools for text editing. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control.
+TextFlow is not just a set of LLM tools for text editing. It is a convenient environment for working with manuscripts. It features a natural language chat interface for agent control, similar to Visual Studio Copilot or Cursor.
 
 The system includes Story Bible, which automatically generates and maintains knowledge bases for characters, world-building, and timeline consistency. Every change goes through the Patch System, allowing you to review changes with a clear rationale for each change. Quality Metrics offers a quantitative assessment of the manuscript based on parameters such as clarity, tension, and pacing, while a complete version history with semantic versioning provides full rollback capability.
 
@@ -199,8 +199,30 @@ Search by meaning, not just keywords:
 
 ---
 
+## 📄 License
+
+**Business Source License 1.1**
+
+TextFlow is licensed under the **Business Source License 1.1**, which allows:
+
+✅ **Free use for non-production purposes:**
+- Personal projects
+- Research and education
+- Testing and evaluation
+- Internal development
+
+❌ **Production use requires a commercial license**
+
+🔓 **Automatic transition to Apache 2.0 on January 1, 2029**
+
+For full license terms, see the [LICENSE](LICENSE) file.
+
+For commercial licensing inquiries, contact: **Artem Kazakov Kozlov (KazKozDev)**
+
+---
+
 If you like this project, please give it a star ⭐
 
 For questions, feedback, or support, reach out to:
 
-[Artem KK](https://www.linkedin.com/in/kazkozdev/) | MIT [LICENSE](LICENSE) 
+[Artem KK](https://www.linkedin.com/in/kazkozdev/)

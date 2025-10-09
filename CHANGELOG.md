@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- **License updated** from MIT to Business Source License 1.1
+  - Free for non-production use (personal projects, research, education)
+  - Production use requires commercial license
+  - Automatically converts to Apache 2.0 on January 1, 2029
+
 ## [1.0.0] - 2025-10-08
 
 ### Added
@@ -99,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive README with architecture details
 - USER_GUIDE for end users
 - ROADMAP for future features
-- MIT License
+- Business Source License 1.1
 - Quick start script (Start.command) for macOS
 
 ### Initial Release

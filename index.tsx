@@ -448,10 +448,11 @@ type AnnotationCardProps = {
     annotation: Annotation;
     onAccept: (annotation: Annotation) => void;
     onReject: (id: number) => void;
+    onNavigate: (annotation: Annotation) => void;
 };
 
-const AnnotationCard: FC<AnnotationCardProps> = ({ annotation, onAccept, onReject }) => (
-    <Card className="annotation-card">
+const AnnotationCard: FC<AnnotationCardProps> = ({ annotation, onAccept, onReject, onNavigate }) => (
+    <Card className="annotation-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate(annotation)}>
         <div className="card-header">
             <h4 className="card-title">{annotation.category}</h4>
             <Tag color="success">{`Confidence: ${annotation.confidence}%`}</Tag>
@@ -462,8 +463,8 @@ const AnnotationCard: FC<AnnotationCardProps> = ({ annotation, onAccept, onRejec
         </div>
         <p className="annotation-card-reasoning">{annotation.reasoning}</p>
         <div className="annotation-card-footer">
-            <Button variant="danger" className="btn-sm" onClick={() => onReject(annotation.id)}>Reject</Button>
-            <Button variant="success" className="btn-sm" onClick={() => onAccept(annotation)}>Accept</Button>
+            <Button variant="danger" className="btn-sm" onClick={(e) => { e.stopPropagation(); onReject(annotation.id); }}>Reject</Button>
+            <Button variant="success" className="btn-sm" onClick={(e) => { e.stopPropagation(); onAccept(annotation); }}>Accept</Button>
         </div>
     </Card>
 );
@@ -535,7 +536,6 @@ const EditorToolbar: FC<EditorToolbarProps> = ({ wordCount, characterCount, edit
 type EditableTextAreaProps = {
     text: string;
     onTextChange: (text: string) => void;
-    annotations: Annotation[];
     highlightedParaIndex: number | null;
     highlightedText?: string;
     onSelectionChange?: (selection: { start: number; end: number; text: string }) => void;
@@ -547,7 +547,7 @@ type EditorHandle = {
     getSelection: () => { start: number; end: number; text: string } | null;
 };
 
-const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text, onTextChange, annotations, highlightedParaIndex, highlightedText, onSelectionChange, fontSize }, ref) => {
+const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text, onTextChange, highlightedParaIndex, highlightedText, onSelectionChange, fontSize }, ref) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const listRef = useRef<ReactWindow.FixedSizeList>(null);
     const backdropRef = useRef<HTMLDivElement>(null);
@@ -598,23 +598,10 @@ const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text
         }
         return { paragraphStartLines: startLines, paragraphLineCounts: lineCounts };
     }, [text]);
-
-    const annotationRegex = useMemo(() => {
-        const escapeRegExp = (string: string): string => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const highlightTexts = annotations.map(a => a.originalText.split('\n')[0]).filter(Boolean);
-        if (highlightTexts.length === 0) return null;
-        const uniqueHighlights = [...new Set(highlightTexts)];
-        return new RegExp(`(${uniqueHighlights.map(escapeRegExp).join('|')})`, 'g');
-    }, [annotations]);
     
     const Row = ({ index, style }: { index: number, style: React.CSSProperties }) => {
         const line = lines[index];
         let highlightedHTML = line;
-        
-        // Apply annotation highlights
-        if (annotationRegex) {
-            highlightedHTML = highlightedHTML.replace(annotationRegex, '<mark>$1</mark>');
-        }
         
         if (!highlightedHTML) {
             highlightedHTML = '&nbsp;';
@@ -2382,7 +2369,7 @@ const EditorPanel: FC<EditorPanelProps> = ({
                     </div>
                 </div>
             </div>
-            <EditableTextArea ref={editorRef} text={text} onTextChange={onTextChange} annotations={annotations} highlightedParaIndex={highlightedParaIndex} highlightedText={highlightedText} onSelectionChange={onSelectionChange} fontSize={fontSize}/>
+            <EditableTextArea ref={editorRef} text={text} onTextChange={onTextChange} highlightedParaIndex={highlightedParaIndex} highlightedText={highlightedText} onSelectionChange={onSelectionChange} fontSize={fontSize}/>
             {pendingPatches.length > 0 && selectedPatch && (
                 <DiffPanel
                     patches={pendingPatches}
@@ -2407,6 +2394,7 @@ type SidebarProps = {
     performanceLog: PerformanceLogEntry[];
     onAcceptAnnotation: (annotation: Annotation) => void;
     onRejectAnnotation: (id: number) => void;
+    onNavigateToAnnotation: (annotation: Annotation) => void;
     onAcceptAll: () => void;
     onRejectAll: () => void;
     onRevertToHistory: (id: number) => void;
@@ -2435,6 +2423,7 @@ const Sidebar: FC<SidebarProps> = ({
     performanceLog,
     onAcceptAnnotation,
     onRejectAnnotation,
+    onNavigateToAnnotation,
     onAcceptAll,
     onRejectAll,
     onRevertToHistory,
@@ -2470,7 +2459,7 @@ const Sidebar: FC<SidebarProps> = ({
                                 <Button variant="success" onClick={onAcceptAll}>Accept All</Button>
                                 <Button variant="danger" onClick={onRejectAll}>Reject All</Button>
                               </div>
-                              {annotations.map(ann => <AnnotationCard key={ann.id} annotation={ann} onAccept={onAcceptAnnotation} onReject={onRejectAnnotation} />)}
+                              {annotations.map(ann => <AnnotationCard key={ann.id} annotation={ann} onAccept={onAcceptAnnotation} onReject={onRejectAnnotation} onNavigate={onNavigateToAnnotation} />)}
                             </>
                           ) : (
                             <EmptyState message="This is the final stage of editing that occurs after the manuscript has already gone through other editing stages (in our case, this is Quick Commands) and has been formatted into a print-ready layout.
@@ -3333,6 +3322,12 @@ ${paragraphs.map((p, i) => `[c1s1p${i + 1}:${simpleHash(p)}] ${p}`).join('\n\n')
   const handleRejectAnnotation = (id: number) => {
     setAnnotations(prev => prev.filter(a => a.id !== id));
   };
+
+  const handleNavigateToAnnotation = (annotation: Annotation) => {
+    console.log('Navigating to annotation:', annotation.originalText.substring(0, 50));
+    setHighlightedText(annotation.originalText);
+    setSearchTrigger(prev => prev + 1);
+  };
   
   const handleRejectAllAnnotations = () => {
       setAnnotations([]);
@@ -3967,12 +3962,12 @@ Please provide ONLY the edited version of the text. Do not include explanations,
     }
   }, [selectedPatch]);
 
-  // Use browser's native selection to highlight text in textarea
+  // Search and highlight text in textarea with proper scrolling
   useEffect(() => {
-    if (highlightedText && selectedPatchId) {
+    if (highlightedText) {
       const searchText = highlightedText.trim();
       
-      console.log('Searching for text in manuscript (trigger:', searchTrigger, '):', searchText.substring(0, 50));
+      console.log('Searching for text:', searchText.substring(0, 50));
       
       setTimeout(() => {
         const textarea = document.querySelector('.editable-textarea') as HTMLTextAreaElement;
@@ -3997,21 +3992,38 @@ Please provide ONLY the edited version of the text. Do not include explanations,
           
           if (textIndex !== -1) {
             const endIndex = textIndex + searchText.length;
-            
-            // Focus and select the text in textarea
-            textarea.focus();
-            textarea.setSelectionRange(textIndex, endIndex);
-            
-            // Scroll to the selection
             const linesBefore = manuscriptText.substring(0, textIndex).split('\n').length - 1;
-            editorRef.current?.scrollToLine(Math.max(0, linesBefore - 2));
             
-            console.log('Selected text at position', textIndex, '-', endIndex);
+            // Step 1: Scroll virtual list to approximate area
+            editorRef.current?.scrollToLine(linesBefore);
+            
+            // Step 2: After virtual list scrolls, focus and select text
+            setTimeout(() => {
+              textarea.focus();
+              textarea.setSelectionRange(textIndex, endIndex);
+              
+              // Step 3: Force browser to scroll to the selection
+              const lineHeight = 22; // LINE_HEIGHT from EditableTextArea
+              const targetScrollTop = linesBefore * lineHeight - (textarea.clientHeight / 2);
+              textarea.scrollTop = Math.max(0, targetScrollTop);
+              
+              // Step 4: Blur and refocus to force browser to show cursor
+              setTimeout(() => {
+                textarea.blur();
+                textarea.focus();
+                textarea.setSelectionRange(textIndex, endIndex);
+                
+                // Force one more scroll
+                textarea.scrollTop = Math.max(0, targetScrollTop);
+                
+                console.log('Forced scroll to line:', linesBefore);
+              }, 50);
+            }, 100);
           } else {
             console.warn('Could not find text in manuscript:', searchText.substring(0, 100));
           }
         }
-      }, 200);
+      }, 150);
     } else {
       // Clear selection when no patch is selected
       const textarea = document.querySelector('.editable-textarea') as HTMLTextAreaElement;
@@ -4295,6 +4307,7 @@ Please provide ONLY the edited version of the text. Do not include explanations,
         performanceLog={performanceLog}
         onAcceptAnnotation={handleAcceptAnnotation}
         onRejectAnnotation={handleRejectAnnotation}
+        onNavigateToAnnotation={handleNavigateToAnnotation}
         onAcceptAll={handleAcceptAllAnnotations}
         onRejectAll={handleRejectAllAnnotations}
         onRevertToHistory={handleRevertToHistory}

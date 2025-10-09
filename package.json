@@ -5,7 +5,7 @@
   "type": "module",
   "description": "AI-powered Integrated Writing Environment with Cascade Agent Architecture",
   "author": "KazKozDev",
-  "license": "MIT",
+  "license": "BSL-1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/KazKozDev/textflow.git"
@@ -17,21 +17,22 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "@google/genai": "latest",
-    "react-window": "^1.8.10",
     "docx": "^8.5.0",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
-    "html2canvas": "^1.4.1"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-window": "^1.8.10"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^22.14.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-window": "^1.8.8",
-    "@types/file-saver": "^2.0.7",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
