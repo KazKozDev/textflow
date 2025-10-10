@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Improved
+- **localStorage Management** with intelligent multi-tier fallback system
+  - Proactive size detection prevents quota errors before they occur
+  - 4-level progressive state reduction (20→5 history, 50→0 annotations, 100→0 patches)
+  - Automatic cleanup when storage is exhausted
+  - Clear console feedback with emoji indicators (✅ ❌ 🔄 ⚠️ 💥 🧹)
+  - Guarantees manuscript preservation even in worst-case scenarios
+
 ### Changed
 - **License updated** from MIT to Business Source License 1.1
   - Free for non-production use (personal projects, research, education)

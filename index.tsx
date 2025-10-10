@@ -552,6 +552,7 @@ const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text
     const listRef = useRef<ReactWindow.FixedSizeList>(null);
     const backdropRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
+    const cursorPositionRef = useRef<{ start: number; end: number } | null>(null);
 
     useImperativeHandle(ref, () => ({
         scrollToLine: (line: number) => {
@@ -581,6 +582,15 @@ const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text
         resizeObserver.observe(backdropRef.current);
         return () => resizeObserver.disconnect();
     }, []);
+
+    // Restore cursor position after text changes
+    useEffect(() => {
+        if (textareaRef.current && cursorPositionRef.current) {
+            const { start, end } = cursorPositionRef.current;
+            textareaRef.current.setSelectionRange(start, end);
+            cursorPositionRef.current = null;
+        }
+    }, [text]);
 
     const lines = useMemo(() => text.split('\n'), [text]);
     const LINE_HEIGHT = 28.16;
@@ -641,7 +651,16 @@ const EditableTextArea = forwardRef<EditorHandle, EditableTextAreaProps>(({ text
                 ref={textareaRef}
                 className="editable-textarea"
                 value={text}
-                onChange={(e) => onTextChange(e.target.value)}
+                onChange={(e) => {
+                    // Save cursor position before text change
+                    if (textareaRef.current) {
+                        cursorPositionRef.current = {
+                            start: textareaRef.current.selectionStart,
+                            end: textareaRef.current.selectionEnd
+                        };
+                    }
+                    onTextChange(e.target.value);
+                }}
                 onScroll={handleScroll}
                 onSelect={(e) => {
                     if (onSelectionChange && textareaRef.current) {
@@ -2329,12 +2348,37 @@ type EditorPanelProps = {
     fontSize: number;
     onZoomIn: () => void;
     onZoomOut: () => void;
+    // Polish Mode props
+    isPolishMode: boolean;
+    currentParagraphIndex: number;
+    polishedParagraph: string;
+    isPolishing: boolean;
+    autoPolishMode: boolean;
+    paragraphs: string[];
+    onStartPolishMode: () => void;
+    onExitPolishMode: () => void;
+    onPolishCurrentParagraph: () => void;
+    onAcceptPolish: () => void;
+    onSkipParagraph: () => void;
+    onNextParagraph: () => void;
+    onPreviousParagraph: () => void;
+    onToggleAutoPolish: () => void;
+    // Chapter Polish Mode props
+    isChapterPolishMode: boolean;
+    currentChapterIndex: number;
+    isChapterPolishing: boolean;
+    chapters: { title: string; startIndex: number; endIndex: number; text: string }[];
+    onStartChapterPolishMode: () => void;
+    onExitChapterPolishMode: () => void;
+    onToggleChapterPolishMode: () => void;
+    onPreviousChapter: () => void;
+    onNextChapter: () => void;
 }
 
-const EditorPanel: FC<EditorPanelProps> = ({ 
-    text, 
-    onTextChange, 
-    error, 
+const EditorPanel: FC<EditorPanelProps> = ({
+    text,
+    onTextChange,
+    error,
     annotations,
     pendingPatches,
     selectedPatch,
@@ -2350,6 +2394,29 @@ const EditorPanel: FC<EditorPanelProps> = ({
     fontSize,
     onZoomIn,
     onZoomOut,
+    isPolishMode,
+    currentParagraphIndex,
+    polishedParagraph,
+    isPolishing,
+    autoPolishMode,
+    paragraphs,
+    onStartPolishMode,
+    onExitPolishMode,
+    onPolishCurrentParagraph,
+    onAcceptPolish,
+    onSkipParagraph,
+    onNextParagraph,
+    onPreviousParagraph,
+    onToggleAutoPolish,
+    isChapterPolishMode,
+    currentChapterIndex,
+    isChapterPolishing,
+    chapters,
+    onStartChapterPolishMode,
+    onExitChapterPolishMode,
+    onToggleChapterPolishMode,
+    onPreviousChapter,
+    onNextChapter
 }) => {
     const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
     
@@ -2363,6 +2430,15 @@ const EditorPanel: FC<EditorPanelProps> = ({
                 <div className="editor-stats">
                     <span className="stat-item">Words: {wordCount.toLocaleString()}</span>
                     <span className="stat-item">Characters: {text.length.toLocaleString()}</span>
+                    <div className="editor-actions">
+                        <Button
+                            variant={isPolishMode ? "danger" : "primary"}
+                            onClick={isPolishMode ? onExitPolishMode : onStartPolishMode}
+                            size="sm"
+                        >
+                            {isPolishMode ? 'Exit Polish' : 'Polish Mode'}
+                        </Button>
+                    </div>
                     <div className="zoom-controls">
                         <button className="zoom-btn" onClick={onZoomOut} title="Decrease font size">−</button>
                         <button className="zoom-btn" onClick={onZoomIn} title="Increase font size">+</button>
@@ -2378,6 +2454,163 @@ const EditorPanel: FC<EditorPanelProps> = ({
                     onAccept={onAcceptPatch}
                     onSkip={onSkipPatch}
                 />
+            )}
+
+            {/* Polish Mode Overlay */}
+            {(isPolishMode || isChapterPolishMode) && (
+                <div className="polish-mode-overlay">
+                    <div className="polish-mode-header">
+                        <h3>{isChapterPolishMode ? 'Chapter Polish Mode' : 'Paragraph Polish Mode'}</h3>
+
+                        {/* Mode Toggle */}
+                        <div className="polish-mode-toggle">
+                            <Button
+                                variant={!isChapterPolishMode ? "primary" : "secondary"}
+                                onClick={() => !isChapterPolishMode && onToggleChapterPolishMode()}
+                            >
+                                Paragraph Mode
+                            </Button>
+                            <Button
+                                variant={isChapterPolishMode ? "primary" : "secondary"}
+                                onClick={onToggleChapterPolishMode}
+                            >
+                                Chapter Mode
+                            </Button>
+                        </div>
+
+                        {!isChapterPolishMode && (
+                            <div className="polish-auto-mode">
+                                <label className="auto-polish-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={autoPolishMode}
+                                        onChange={onToggleAutoPolish}
+                                    />
+                                    Auto-polish all paragraphs
+                                </label>
+                            </div>
+                        )}
+
+                        <div className="polish-progress">
+                            {isChapterPolishMode
+                                ? `Chapter ${currentChapterIndex + 1} / ${chapters.length}: ${chapters[currentChapterIndex]?.title || 'Unknown'}`
+                                : `${currentParagraphIndex + 1} / ${paragraphs.length}`
+                            }
+                        </div>
+                        <Button variant="secondary" onClick={isChapterPolishMode ? onExitChapterPolishMode : onExitPolishMode}>
+                            Exit (Esc)
+                        </Button>
+                    </div>
+
+                    <div className="polish-content">
+                        {isChapterPolishMode ? (
+                            <div className="polish-original">
+                                <h4>Chapter: {chapters[currentChapterIndex]?.title || 'Unknown'}</h4>
+                                <div className="polish-text-box">
+                                    {isChapterPolishing
+                                        ? 'Analyzing chapter for stylistic improvements...'
+                                        : (chapters[currentChapterIndex]?.text.substring(0, 500) + '...' || 'No chapter selected')
+                                    }
+                                </div>
+                                <div className="chapter-info">
+                                    Words: {chapters[currentChapterIndex]?.text.split(' ').length || 0} |
+                                    Paragraphs: {chapters[currentChapterIndex]?.text.split('\n\n').length || 0}
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="polish-original">
+                                    <h4>Original:</h4>
+                                    <div className="polish-text-box">
+                                        {paragraphs[currentParagraphIndex] || 'No paragraph selected'}
+                                    </div>
+                                </div>
+
+                                {polishedParagraph && (
+                                    <div className="polish-improved">
+                                        <h4>Improved:</h4>
+                                        <div className="polish-text-box improved">
+                                            {polishedParagraph}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+
+                    <div className="polish-controls">
+                        {isChapterPolishMode ? (
+                            <>
+                                <Button
+                                    variant="secondary"
+                                    onClick={onPreviousChapter}
+                                    disabled={currentChapterIndex === 0}
+                                >
+                                    ← Previous Chapter
+                                </Button>
+
+                                <Button
+                                    variant="primary"
+                                    onClick={onStartChapterPolishMode}
+                                    disabled={isChapterPolishing}
+                                >
+                                    {isChapterPolishing ? 'Analyzing...' : 'Analyze Chapter'}
+                                </Button>
+
+                                <Button
+                                    variant="secondary"
+                                    onClick={onNextChapter}
+                                    disabled={currentChapterIndex >= chapters.length - 1}
+                                >
+                                    Next Chapter →
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button
+                                    variant="secondary"
+                                    onClick={onPreviousParagraph}
+                                    disabled={currentParagraphIndex === 0}
+                                >
+                                    ← Previous (↑)
+                                </Button>
+
+                                <Button
+                                    variant="primary"
+                                    onClick={onPolishCurrentParagraph}
+                                    disabled={isPolishing}
+                                >
+                                    {isPolishing ? 'Polishing...' : 'Polish (Enter)'}
+                                </Button>
+
+                                {polishedParagraph && (
+                                    <>
+                                        <Button
+                                            variant="success"
+                                            onClick={onAcceptPolish}
+                                        >
+                                            Accept (A)
+                                        </Button>
+                                        <Button
+                                            variant="danger"
+                                            onClick={onSkipParagraph}
+                                        >
+                                            Skip (S)
+                                        </Button>
+                                    </>
+                                )}
+
+                                <Button
+                                    variant="secondary"
+                                    onClick={onNextParagraph}
+                                    disabled={currentParagraphIndex >= paragraphs.length - 1}
+                                >
+                                    Next → (↓)
+                                </Button>
+                            </>
+                        )}
+                    </div>
+                </div>
             )}
         </main>
     );
@@ -2666,10 +2899,103 @@ const loadFromLocalStorage = () => {
 };
 
 const saveToLocalStorage = (state: any) => {
+  // Helper to calculate approximate size
+  const getApproximateSize = (obj: any): number => {
+    return JSON.stringify(obj).length;
+  };
+
+  // Helper to create reduced state
+  const createReducedState = (state: any, aggressiveMode: boolean = false) => {
+    return {
+      manuscriptText: state.manuscriptText,
+      historyStack: aggressiveMode 
+        ? state.historyStack.slice(-5)  // Keep only last 5 entries in aggressive mode
+        : state.historyStack.slice(-20), // Keep last 20 entries normally
+      bible: state.bible,
+      metadata: state.metadata,
+      manuscriptRules: state.manuscriptRules,
+      aiContext: {
+        ...state.aiContext,
+        selectedCharacters: state.aiContext?.selectedCharacters || [],
+        selectedLocations: state.aiContext?.selectedLocations || [],
+        customNotes: state.aiContext?.customNotes || '',
+      },
+      annotations: aggressiveMode ? [] : (state.annotations || []).slice(-50), // Keep max 50 annotations
+      pendingPatches: aggressiveMode ? [] : (state.pendingPatches || []).slice(-100), // Keep max 100 patches
+      selectedPatchId: state.selectedPatchId,
+      fontSize: state.fontSize || 16,
+    };
+  };
+
   try {
+    const fullStateSize = getApproximateSize(state);
+    const MAX_SIZE = 4 * 1024 * 1024; // 4MB (localStorage limit is usually 5-10MB)
+
+    // Proactive size check - if approaching limit, save reduced state immediately
+    if (fullStateSize > MAX_SIZE) {
+      console.warn(`State size (${(fullStateSize / 1024 / 1024).toFixed(2)}MB) exceeds safe limit. Saving reduced state.`);
+      const reducedState = createReducedState(state, false);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(reducedState));
+      console.log('✅ Saved reduced state proactively');
+      return;
+    }
+
+    // Try to save the full state
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (e) {
-    console.error('Failed to save to localStorage:', e);
+    console.error('❌ Failed to save to localStorage:', e);
+
+    // If quota exceeded, try saving progressively smaller states
+    if (e instanceof DOMException && e.code === DOMException.QUOTA_EXCEEDED_ERR) {
+      console.log('🔄 Attempting to save reduced state...');
+      
+      try {
+        // First attempt: normal reduced state
+        const reducedState = createReducedState(state, false);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reducedState));
+        console.log('✅ Saved reduced state successfully');
+      } catch (e2) {
+        console.warn('⚠️ Normal reduced state still too large, trying aggressive mode...');
+        
+        try {
+          // Second attempt: aggressive reduction
+          const aggressiveState = createReducedState(state, true);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(aggressiveState));
+          console.log('✅ Saved aggressive reduced state successfully');
+        } catch (e3) {
+          console.error('❌ Even aggressive state failed, trying minimal state...');
+          
+          try {
+            // Final attempt: save only essential data
+            const minimalState = {
+              manuscriptText: state.manuscriptText,
+              metadata: state.metadata,
+              bible: state.bible,
+              manuscriptRules: state.manuscriptRules,
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(minimalState));
+            console.log('✅ Saved minimal state (manuscript + metadata only)');
+          } catch (e4) {
+            // Last resort: clear localStorage completely
+            console.error('💥 All save attempts failed. Clearing localStorage...');
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.clear(); // Clear everything to free space
+            console.log('🧹 localStorage cleared completely');
+            
+            // Try to save just the manuscript text
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                manuscriptText: state.manuscriptText,
+                metadata: state.metadata,
+              }));
+              console.log('✅ Saved manuscript text only');
+            } catch (e5) {
+              console.error('💀 Cannot save even manuscript. Storage completely full.');
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -2691,6 +3017,15 @@ const App = () => {
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState(false);
   const [pipelineProgress, setPipelineProgress] = useState(0);
+  // Polish Mode state
+  const [isPolishMode, setIsPolishMode] = useState(false);
+  const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
+  const [polishedParagraph, setPolishedParagraph] = useState<string>('');
+  const [isPolishing, setIsPolishing] = useState(false);
+  const [autoPolishMode, setAutoPolishMode] = useState(false);
+  const [isChapterPolishMode, setIsChapterPolishMode] = useState(false);
+  const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+  const [isChapterPolishing, setIsChapterPolishing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<Metadata>(
     savedState?.metadata || {
@@ -3321,6 +3656,242 @@ ${paragraphs.map((p, i) => `[c1s1p${i + 1}:${simpleHash(p)}] ${p}`).join('\n\n')
 
   const handleRejectAnnotation = (id: number) => {
     setAnnotations(prev => prev.filter(a => a.id !== id));
+  };
+
+  // Polish Mode functions
+  const polishParagraphs = useMemo(() => manuscriptText.split(/\n\s*\n/).filter(p => p.trim()), [manuscriptText]);
+
+  // Chapter identification function
+  const identifyChapters = useMemo(() => {
+    const chapters: { title: string; startIndex: number; endIndex: number; text: string }[] = [];
+    const paragraphs = manuscriptText.split(/\n\s*\n/).filter(p => p.trim());
+
+    let currentChapterStart = 0;
+    let currentChapterTitle = "Chapter 1";
+
+    paragraphs.forEach((paragraph, index) => {
+      // Look for chapter markers (various patterns)
+      const chapterMatch = paragraph.match(/^(Chapter\s+\d+|Глава\s+\d+|CHAPTER\s+\d+|Часть\s+\d+)/i);
+
+      if (chapterMatch && index > 0) {
+        // End previous chapter
+        const prevChapterText = paragraphs.slice(currentChapterStart, index).join('\n\n');
+        chapters.push({
+          title: currentChapterTitle,
+          startIndex: currentChapterStart,
+          endIndex: index - 1,
+          text: prevChapterText
+        });
+
+        // Start new chapter
+        currentChapterStart = index;
+        currentChapterTitle = chapterMatch[0];
+      }
+    });
+
+    // Add the last chapter
+    if (currentChapterStart < paragraphs.length) {
+      const lastChapterText = paragraphs.slice(currentChapterStart).join('\n\n');
+      chapters.push({
+        title: currentChapterTitle,
+        startIndex: currentChapterStart,
+        endIndex: paragraphs.length - 1,
+        text: lastChapterText
+      });
+    }
+
+    // If no chapters found, treat entire text as one chapter
+    if (chapters.length === 0) {
+      chapters.push({
+        title: "Complete Text",
+        startIndex: 0,
+        endIndex: paragraphs.length - 1,
+        text: manuscriptText
+      });
+    }
+
+    return chapters;
+  }, [manuscriptText]);
+
+  const handleStartPolishMode = () => {
+    setIsPolishMode(true);
+    setCurrentParagraphIndex(0);
+    setPolishedParagraph('');
+
+    // Auto-start polishing first paragraph in auto-polish mode
+    if (autoPolishMode) {
+      setTimeout(() => {
+        handlePolishCurrentParagraph();
+      }, 100); // Small delay to ensure state update
+    }
+  };
+
+  const handleExitPolishMode = () => {
+    setIsPolishMode(false);
+    setCurrentParagraphIndex(0);
+    setPolishedParagraph('');
+  };
+
+  const handleToggleAutoPolish = () => {
+    setAutoPolishMode(prev => !prev);
+  };
+
+  const handlePolishCurrentParagraph = async () => {
+    const currentParagraph = polishParagraphs[currentParagraphIndex];
+    if (!currentParagraph) return;
+
+    setIsPolishing(true);
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: `Polish this paragraph to make it more human and natural. Remove AI-like phrases, clichés, and unnecessary descriptions. Make it concise and authentic:
+
+"${currentParagraph}"
+
+Return only the improved paragraph, nothing else.`,
+      });
+      const polishedText = response.text.trim();
+      setPolishedParagraph(polishedText);
+
+      // Auto-accept in auto-polish mode
+      if (autoPolishMode) {
+        const newParagraphs = [...polishParagraphs];
+        newParagraphs[currentParagraphIndex] = polishedText;
+        const newText = newParagraphs.join('\n\n');
+        updateManuscriptAndHistory(newText, `Auto-polished paragraph ${currentParagraphIndex + 1}`, 'manual');
+
+        // Auto-move to next paragraph
+        setTimeout(() => {
+          handleNextParagraph();
+        }, 500); // Small delay to show the polished text briefly
+      }
+    } catch (e) {
+      setError("Failed to polish paragraph. Please try again.");
+      console.error(e);
+    } finally {
+      setIsPolishing(false);
+    }
+  };
+
+  const handleAcceptPolish = () => {
+    if (polishedParagraph) {
+      const newParagraphs = [...polishParagraphs];
+      newParagraphs[currentParagraphIndex] = polishedParagraph;
+      const newText = newParagraphs.join('\n\n');
+      updateManuscriptAndHistory(newText, `Polished paragraph ${currentParagraphIndex + 1}`, 'manual');
+      handleNextParagraph();
+    }
+  };
+
+  const handleSkipParagraph = () => {
+    handleNextParagraph();
+  };
+
+  const handleNextParagraph = () => {
+    setPolishedParagraph('');
+    if (currentParagraphIndex < polishParagraphs.length - 1) {
+      setCurrentParagraphIndex(prev => prev + 1);
+
+      // Auto-start polishing next paragraph in auto-polish mode
+      if (autoPolishMode) {
+        setTimeout(() => {
+          handlePolishCurrentParagraph();
+        }, 100); // Small delay to ensure state update
+      }
+    } else {
+      // Finished all paragraphs
+      handleExitPolishMode();
+    }
+  };
+
+  const handlePreviousParagraph = () => {
+    setPolishedParagraph('');
+    if (currentParagraphIndex > 0) {
+      setCurrentParagraphIndex(prev => prev - 1);
+    }
+  };
+
+  // Chapter Polish Mode functions
+  const handleToggleChapterPolishMode = () => {
+    setIsChapterPolishMode(prev => !prev);
+    if (isChapterPolishMode) {
+      // Exit chapter polish mode
+      setCurrentChapterIndex(0);
+    }
+  };
+
+  const handleStartChapterPolishMode = () => {
+    setIsChapterPolishMode(true);
+    setCurrentChapterIndex(0);
+
+    // Start processing first chapter automatically
+    setTimeout(() => {
+      handlePolishCurrentChapter();
+    }, 100);
+  };
+
+  const handleExitChapterPolishMode = () => {
+    setIsChapterPolishMode(false);
+    setCurrentChapterIndex(0);
+    setIsChapterPolishing(false);
+  };
+
+  const handlePolishCurrentChapter = async () => {
+    const currentChapter = identifyChapters[currentChapterIndex];
+    if (!currentChapter) return;
+
+    setIsChapterPolishing(true);
+    try {
+      // Use the existing AI system to analyze and create patches for the chapter
+      const chapterAnalysisPrompt = `
+Analyze this chapter for stylistic improvements and create targeted patches. Focus on:
+1. Sentence flow and rhythm
+2. Word choice and vocabulary sophistication
+3. Dialogue tags and attribution
+4. Repetitive phrasing
+5. Passive voice issues
+6. Clarity and concision
+
+Chapter: "${currentChapter.title}"
+Text: "${currentChapter.text}"
+
+Create specific, minimal patches that improve the writing style while preserving the author's voice and story content.
+`;
+
+      // Call the chat function to analyze and create patches
+      await handleSendMessage(chapterAnalysisPrompt);
+
+    } catch (e) {
+      setError("Failed to analyze chapter. Please try again.");
+      console.error(e);
+    } finally {
+      setIsChapterPolishing(false);
+    }
+  };
+
+  const handleNextChapter = () => {
+    if (currentChapterIndex < identifyChapters.length - 1) {
+      setCurrentChapterIndex(prev => prev + 1);
+      // Auto-start polishing next chapter
+      setTimeout(() => {
+        handlePolishCurrentChapter();
+      }, 500);
+    } else {
+      // Finished all chapters
+      handleExitChapterPolishMode();
+    }
+  };
+
+  const handlePreviousChapter = () => {
+    if (currentChapterIndex > 0) {
+      setCurrentChapterIndex(prev => prev - 1);
+    }
+  };
+
+  const handleNextChapterPolish = () => {
+    if (currentChapterIndex < identifyChapters.length - 1) {
+      setCurrentChapterIndex(prev => prev + 1);
+    }
   };
 
   const handleNavigateToAnnotation = (annotation: Annotation) => {
@@ -4202,6 +4773,17 @@ Please provide ONLY the edited version of the text. Do not include explanations,
             return;
         }
 
+        // Cmd/Ctrl+P for Polish Mode
+        if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+            e.preventDefault();
+            if (!isPolishMode) {
+                handleStartPolishMode();
+            } else {
+                handleExitPolishMode();
+            }
+            return;
+        }
+
         // Cmd/Ctrl+I for inline edit
         if ((e.metaKey || e.ctrlKey) && e.key === 'i') {
             e.preventDefault();
@@ -4232,7 +4814,7 @@ Please provide ONLY the edited version of the text. Do not include explanations,
                 handleSkipPatch(selectedPatch.patch_id);
             } else if (key === 'e') {
                 e.preventDefault();
-                setIsPatchEditing(true);
+                // setIsPatchEditing(true); // TODO: implement patch editing
             } else if (key === 'y') {
                 // Sync Before with 'Y' key
                 e.preventDefault();
@@ -4250,7 +4832,33 @@ Please provide ONLY the edited version of the text. Do not include explanations,
                 setSelectedPatchId(pendingPatches[prevIndex].patch_id);
             }
         }
-        
+
+        // Polish Mode shortcuts
+        if (isPolishMode) {
+            if (key === 'escape') {
+                e.preventDefault();
+                handleExitPolishMode();
+            } else if (key === 'enter') {
+                e.preventDefault();
+                handlePolishCurrentParagraph();
+            } else if (key === 'a') {
+                e.preventDefault();
+                if (polishedParagraph) {
+                    handleAcceptPolish();
+                }
+            } else if (key === 's') {
+                e.preventDefault();
+                handleSkipParagraph();
+            } else if (key === 'arrowleft' || key === 'arrowup') {
+                e.preventDefault();
+                handlePreviousParagraph();
+            } else if (key === 'arrowright' || key === 'arrowdown') {
+                e.preventDefault();
+                handleNextParagraph();
+            }
+            return; // Don't process other shortcuts in Polish Mode
+        }
+
         if (key === 'u') {
              e.preventDefault();
              if (historyStack.length >= 2) {
@@ -4295,10 +4903,33 @@ Please provide ONLY the edited version of the text. Do not include explanations,
         fontSize={fontSize}
         onZoomIn={handleZoomIn}
         onZoomOut={handleZoomOut}
+        isPolishMode={isPolishMode}
+        currentParagraphIndex={currentParagraphIndex}
+        polishedParagraph={polishedParagraph}
+        isPolishing={isPolishing}
+        paragraphs={polishParagraphs}
+        onStartPolishMode={handleStartPolishMode}
+        onExitPolishMode={handleExitPolishMode}
+        onPolishCurrentParagraph={handlePolishCurrentParagraph}
+        onAcceptPolish={handleAcceptPolish}
+        onSkipParagraph={handleSkipParagraph}
+        onNextParagraph={handleNextParagraph}
+        onPreviousParagraph={handlePreviousParagraph}
+        autoPolishMode={autoPolishMode}
+        onToggleAutoPolish={handleToggleAutoPolish}
+        isChapterPolishMode={isChapterPolishMode}
+        currentChapterIndex={currentChapterIndex}
+        isChapterPolishing={isChapterPolishing}
+        chapters={identifyChapters}
+        onStartChapterPolishMode={handleStartChapterPolishMode}
+        onExitChapterPolishMode={handleExitChapterPolishMode}
+        onToggleChapterPolishMode={handleToggleChapterPolishMode}
+        onPreviousChapter={handlePreviousChapter}
+        onNextChapter={handleNextChapterPolish}
       />
-      <Sidebar 
-        annotations={annotations} 
-        manuscriptText={manuscriptText} 
+      <Sidebar
+        annotations={annotations}
+        manuscriptText={manuscriptText}
         history={historyStack}
         metadata={metadata}
         bible={bible}
